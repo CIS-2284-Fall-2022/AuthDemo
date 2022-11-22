@@ -1,0 +1,39 @@
+﻿@page "/testapi"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using AuthDemo.Shared
+@inject HttpClient Http
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (values == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<li>
+        @foreach (var forecast in values)
+        {
+            <tr>
+                <td>@forecast</td>
+            </tr>
+        }
+</li>
+}
+
+@code {
+    private string[]? values;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            values = await Http.GetFromJsonAsync<string[]>("Values");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+}
