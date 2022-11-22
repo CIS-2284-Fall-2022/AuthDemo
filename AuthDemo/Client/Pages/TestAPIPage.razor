@@ -42,7 +42,7 @@ else
     {
         try
         {
-            values = await PublicClient.Client.GetFromJsonAsync<string[]>("api/Values");
+            values = await Http.GetFromJsonAsync<string[]>("api/Values");
         }
         catch (AccessTokenNotAvailableException exception)
         {

@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthDemo.Server.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         // GET: api/<ValuesController>
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -19,7 +19,7 @@ namespace AuthDemo.Server.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet("{id}")]
         public string Get(int id)
         {
