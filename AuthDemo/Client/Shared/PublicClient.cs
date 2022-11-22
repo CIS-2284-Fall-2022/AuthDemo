@@ -1,0 +1,12 @@
+﻿namespace AuthDemo.Client.Shared
+{
+    public class PublicClient
+    {
+        public HttpClient Client { get; }
+
+        public PublicClient(HttpClient httpClient)
+        {
+            Client = httpClient;
+        }
+    }
+}

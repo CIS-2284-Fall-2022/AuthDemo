@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AuthDemo.Server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         // GET: api/<ValuesController>
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -16,6 +19,7 @@ namespace AuthDemo.Server.Controllers
         }
 
         // GET api/<ValuesController>/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public string Get(int id)
         {

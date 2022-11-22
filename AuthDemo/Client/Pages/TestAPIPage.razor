@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using AuthDemo.Shared
 @inject HttpClient Http
+@inject PublicClient PublicClient
 
 <p>This component demonstrates fetching data from the server.</p>
 
@@ -12,14 +13,26 @@
 }
 else
 {
-<li>
-        @foreach (var forecast in values)
+    <table>
+        @foreach (var value in values)
         {
             <tr>
-                <td>@forecast</td>
+                <td>@value</td>
+                <AuthorizeView>
+                    <Authorized>
+                        <td><button class="btn btn-primary" type="button">Update</button></td>
+                        <td><button class="btn btn-danger" type="button">Delete</button></td>
+                    </Authorized>
+                </AuthorizeView>
+
             </tr>
         }
-</li>
+    </table>
+    <AuthorizeView>
+        <Authorized>
+            <button class="btn btn-primary" type="button">Add</button>
+        </Authorized>
+    </AuthorizeView>
 }
 
 @code {
@@ -29,7 +42,7 @@ else
     {
         try
         {
-            values = await Http.GetFromJsonAsync<string[]>("Values");
+            values = await PublicClient.Client.GetFromJsonAsync<string[]>("api/Values");
         }
         catch (AccessTokenNotAvailableException exception)
         {
