@@ -4,6 +4,7 @@
 @using AuthDemo.Shared
 @inject HttpClient Http
 @inject PublicClient PublicClient
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <p>This component demonstrates fetching data from the server.</p>
 
@@ -18,11 +19,14 @@ else
         {
             <tr>
                 <td>@value</td>
-                <AuthorizeView>
+                <AuthorizeView Roles="Administrator">
                     <Authorized>
                         <td><button class="btn btn-primary" type="button">Update</button></td>
                         <td><button class="btn btn-danger" type="button">Delete</button></td>
                     </Authorized>
+                    <NotAuthorized>
+                        <p>Haha admin can't see this!</p>
+                    </NotAuthorized>
                 </AuthorizeView>
 
             </tr>
@@ -33,13 +37,31 @@ else
             <button class="btn btn-primary" type="button">Add</button>
         </Authorized>
     </AuthorizeView>
+
+
+
+
+    <AuthorizeView Roles="Administrator">
+        <Authorized>
+            <p>You are an administrator.</p>
+        </Authorized>
+        <NotAuthorized>
+            <p>You are not an administrator.</p>
+        </NotAuthorized>
+    </AuthorizeView>
+
+    <p>Message: @message</p>
 }
 
 @code {
     private string[]? values;
+    private string message="";
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
         try
         {
             values = await PublicClient.Client.GetFromJsonAsync<string[]>("api/Values");
@@ -47,6 +69,14 @@ else
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
+        }
+        if(user.Identity.IsAuthenticated)
+        {
+            message += "Authenticated ";
+        }
+        if(user.IsInRole("Administrator"))
+        {
+            message += " and is admin.";
         }
     }
 }

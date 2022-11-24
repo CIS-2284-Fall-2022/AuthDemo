@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +22,14 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options => {
+        options.IdentityResources["openid"].UserClaims.Add("name");
+        options.ApiResources.Single().UserClaims.Add("name");
+        options.IdentityResources["openid"].UserClaims.Add("role");
+        options.ApiResources.Single().UserClaims.Add("role");
+    });
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();

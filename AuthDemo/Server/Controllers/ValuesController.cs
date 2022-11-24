@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthDemo.Server.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
@@ -15,6 +15,10 @@ namespace AuthDemo.Server.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            if(User.IsInRole("Administrator"))
+            {
+                return new string[] { "value1", "value2", "value3", "value4" };
+            }
             return new string[] { "value1", "value2" };
         }
 
