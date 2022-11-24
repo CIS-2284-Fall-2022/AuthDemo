@@ -6,9 +6,11 @@ namespace AuthDemo.Server.Controllers
 {
     
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -20,6 +22,7 @@ namespace AuthDemo.Server.Controllers
         {
             _logger = logger;
         }
+
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
