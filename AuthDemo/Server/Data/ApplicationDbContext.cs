@@ -1,4 +1,5 @@
 ﻿using AuthDemo.Server.Models;
+using AuthDemo.Shared.Models;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -13,5 +14,6 @@ namespace AuthDemo.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }
