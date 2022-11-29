@@ -1,4 +1,6 @@
 using AuthDemo.Server.Data;
+using AuthDemo.Server.Data.Interfaces;
+using AuthDemo.Server.Data.Repository;
 using AuthDemo.Server.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -58,6 +60,9 @@ builder.Services.ConfigureApplicationCookie(o =>
         }
     };
 });
+
+//Inject repos
+builder.Services.AddTransient<IContactsRepo, ContactsRepo>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
