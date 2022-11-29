@@ -24,7 +24,7 @@ namespace AuthDemo.Server.Data.Repository
         }
 
 
-        public async Task<Contact> SaveContactAsync(Contact contact)
+        public async Task<Contact?> SaveContactAsync(Contact contact)
         {
             if(contact.Id == 0) //New contact
             {
